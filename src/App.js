@@ -72,7 +72,7 @@ function App() {
         // Show authentication forms for non-authenticated users
         <div className="auth-wrapper">
           <div className="app-header">
-            <h1>AWS Cognito Authentication</h1>
+            <h1>AWS Cognito Testing By Rafeeq</h1>
             <p>Multiple sign-in options with phone, email, and social login</p>
           </div>
           
