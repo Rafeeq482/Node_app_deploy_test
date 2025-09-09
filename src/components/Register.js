@@ -8,6 +8,7 @@ const Register = ({ switchToLogin, switchToPhoneRegister }) => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: ''
   });
@@ -25,6 +26,23 @@ const Register = ({ switchToLogin, switchToPhoneRegister }) => {
     });
   };
 
+  // Format phone number
+  const formatPhoneNumber = (phone) => {
+    // Remove all non-digits
+    const cleaned = phone.replace(/\D/g, '');
+    
+    // Add country code if not present
+    if (cleaned.length === 10) {
+      return `+1${cleaned}`;
+    } else if (cleaned.length === 11 && cleaned.startsWith('1')) {
+      return `+${cleaned}`;
+    } else if (phone.startsWith('+')) {
+      return phone;
+    }
+    
+    return `+${cleaned}`;
+  };
+
   // Handle registration form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,10 +57,14 @@ const Register = ({ switchToLogin, switchToPhoneRegister }) => {
       return;
     }
 
+    // Format phone number
+    const formattedPhone = formatPhoneNumber(formData.phoneNumber);
+
     const result = await authService.signUp(
       formData.username,
       formData.password,
-      formData.email
+      formData.email,
+      formattedPhone
     );
 
     if (result.success) {
@@ -100,6 +122,19 @@ const Register = ({ switchToLogin, switchToPhoneRegister }) => {
                 required
                 placeholder="Enter your email address"
               />
+            </div>
+
+            <div className="form-group">
+              <label>Phone Number:</label>
+              <input
+                type="tel"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+                placeholder="+1234567890 or 1234567890"
+              />
+              <small>Include country code (e.g., +1 for US)</small>
             </div>
             
             <div className="form-group">

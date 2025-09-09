@@ -8,14 +8,21 @@ import { Auth } from 'aws-amplify';
 
 export const authService = {
   // Sign up a new user
-  signUp: async (username, password, email) => {
+  signUp: async (username, password, email, phoneNumber = null) => {
     try {
+      const attributes = {
+        email,
+      };
+      
+      // Add phone number if provided
+      if (phoneNumber) {
+        attributes.phone_number = phoneNumber;
+      }
+      
       const result = await Auth.signUp({
         username,
         password,
-        attributes: {
-          email,
-        },
+        attributes,
       });
       return { success: true, data: result };
     } catch (error) {

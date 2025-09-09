@@ -17,8 +17,8 @@ const awsConfig = {
     oauth: {
       domain: process.env.REACT_APP_COGNITO_DOMAIN, // Cognito domain from environment variable
       scope: ['email', 'profile', 'openid'],
-      redirectSignIn: process.env.REACT_APP_REDIRECT_SIGN_IN,
-      redirectSignOut: process.env.REACT_APP_REDIRECT_SIGN_OUT,
+      redirectSignIn: `http://localhost:${process.env.REACT_APP_PORT || 3000}/`,
+      redirectSignOut: `http://localhost:${process.env.REACT_APP_PORT || 3000}/`,
       responseType: 'code'
     }
   }
