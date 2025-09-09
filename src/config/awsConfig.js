@@ -1,23 +1,24 @@
 // AWS Cognito Configuration
-// Replace these values with your actual AWS Cognito settings
+// Configuration now reads from environment variables
+// Make sure to set up your .env file with the required variables
 
 const awsConfig = {
   Auth: {
-    // Replace with your AWS region (e.g., 'us-east-1', 'us-west-2')
-    region: 'ap-south-1',
+    // AWS region from environment variable
+    region: process.env.REACT_APP_AWS_REGION,
     
-    // Replace with your Cognito User Pool ID
-    userPoolId: 'ap-south-1_5yFzLODcX',
+    // Cognito User Pool ID from environment variable
+    userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
     
-    // Replace with your Cognito User Pool Web Client ID
-    userPoolWebClientId: 'bibaiu32h3624gq6nmjsr9m6f',
+    // Cognito User Pool Web Client ID from environment variable
+    userPoolWebClientId: process.env.REACT_APP_COGNITO_USER_POOL_WEB_CLIENT_ID,
     
     // OAuth configuration for social sign-in
     oauth: {
-      domain: 'REPLACE-WITH-YOUR-DOMAIN.auth.ap-south-1.amazoncognito.com', // Replace with your actual Cognito domain
+      domain: process.env.REACT_APP_COGNITO_DOMAIN, // Cognito domain from environment variable
       scope: ['email', 'profile', 'openid'],
-      redirectSignIn: 'http://localhost:3000/',
-      redirectSignOut: 'http://localhost:3000/',
+      redirectSignIn: process.env.REACT_APP_REDIRECT_SIGN_IN,
+      redirectSignOut: process.env.REACT_APP_REDIRECT_SIGN_OUT,
       responseType: 'code'
     }
   }
