@@ -27,23 +27,24 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      # Deploy dist/ to EC2
-      - name: Deploy to EC2
+      - name: Copy build to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "build/*"
-          target: "/var/www/html/"
+          target: "/home/ubuntu/tmp_build"
           strip_components: 1
 
-      # (Optional) Restart Apache
-      - name: Restart Apache
+      - name: Move files to /var/www/html with sudo
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            sudo rm -rf /var/www/html/*
+            sudo mv /home/ubuntu/tmp_build/* /var/www/html/
             sudo systemctl restart apache2
+
